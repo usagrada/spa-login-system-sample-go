@@ -38,8 +38,10 @@ func Router(e *echo.Group) {
 		}
 		// c.SetResponse(c.Response().Header().Set("Cookie", "token="+tokenString))
 		c.SetCookie(&http.Cookie{
-			Name:  "token",
-			Value: tokenString,
+			Name:     "token",
+			Value:    tokenString,
+			Secure:   true,
+			HttpOnly: true,
 		})
 		return c.String(200, "JWT token: "+tokenString)
 	})
