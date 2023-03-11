@@ -2,10 +2,7 @@ package router
 
 import (
 	"fmt"
-	"net/http"
-	"time"
 
-	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/usagrada/login-system/db"
 )
@@ -26,27 +23,6 @@ func Router(e *echo.Group) {
 	})
 	e.GET("/login", func(c echo.Context) error {
 		return c.String(200, "Login")
-	})
-	e.GET("/jwt", func(c echo.Context) error {
-		claims := jwt.MapClaims{
-			"user_id": 12345678,
-			"exp":     time.Now().Add(time.Hour * 24).Unix(),
-		}
-
-		// ヘッダーとペイロードの生成
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-		tokenString, err := token.SignedString([]byte("SECRET_KEY"))
-		if err != nil {
-			return err
-		}
-		// c.SetResponse(c.Response().Header().Set("Cookie", "token="+tokenString))
-		c.SetCookie(&http.Cookie{
-			Name:     "token",
-			Value:    tokenString,
-			Secure:   true,
-			HttpOnly: true,
-		})
-		return c.String(200, "JWT token: "+tokenString)
 	})
 	e.POST("/signup", func(c echo.Context) error {
 		ref := c.Request().Referer()
