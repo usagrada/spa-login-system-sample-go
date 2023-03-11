@@ -17,6 +17,9 @@ func Router(e *echo.Group) {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(200, "Hello, World!")
 	})
+	e.GET("/csrf", func(c echo.Context) error {
+		return c.String(200, "Hello, World!")
+	})
 	e.POST("/initialize", func(c echo.Context) error {
 		db.Initialize()
 		return c.String(200, "Initialized database!")

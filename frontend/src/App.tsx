@@ -2,21 +2,25 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
-axios.defaults.xsrfCookieName = "_csrf";
-axios.defaults.xsrfHeaderName = "X-CSRF-TOKEN";
+// axios.defaults.xsrfCookieName = "_csrf";
+// axios.defaults.xsrfHeaderName = "X-CSRF-TOKEN";
 axios.defaults.withCredentials = true;
 
 function App() {
   const [count, setCount] = useState(0);
+
   useEffect(() => {
     async function getToken() {
-      await axios.get("http://localhost:8080/api");
+      const res = await axios.get("http://localhost:8080/api/csrf");
+      console.log(res.headers);
+      axios.defaults.headers.common["X-CSRF-Token"] =
+        res.headers["x-csrf-token"];
     }
     getToken();
   }, []);
 
   const handleSubmit = async () => {
-    const res = await axios.post("http://localhost:8080/api/signup")
+    const res = await axios.post("http://localhost:8080/api/signup");
     console.log(res);
   };
 
